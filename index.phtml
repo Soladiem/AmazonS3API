@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Amazon S3</title>
+    <style type="text/css">
+        input[type="submit"] {
+            border-radius: 0;
+            border: 1px solid #999;
+        }
+    </style>
+</head>
+<body>
+
+Ваш <a href="https://s3.console.aws.amazon.com/s3/buckets/drive-19012018/?region=us-east-2&tab=overview" target="_blank">Amazon</a>.
+
+<h2>Загрузка файлов на Amazon</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td colspan="2">
+                <input type="file" name="files[]" multiple>
+                <input type="submit" name="upload" value="Загрузить" >
+            </td>
+        </tr>
+    </table>
+</form>
+
+<h2>Список файлов и папок Amazon</h2>
+
+<ul>
+    <? foreach ($listFiles as $item) {?>
+        <li>
+            <? if ($item['folder'] == 1) {?>
+                <img src="folder.png" alt="">
+            <? } ?>
+            
+            <a href="https://s3.console.aws.amazon.com/s3/object/<?= $bucket ?>/<?= htmlspecialchars(rtrim($item['Key'], '/')) ?>?region=us-east-2&tab=overview" target="_blank"><?= $item['Key'] ?></a>
+            <form method="post">
+                <input type="hidden" name="remfile" value="<?= htmlspecialchars($item['Key']) ?>">
+                <input type="submit" name="delete" value="Удалить">
+            </form>
+        </li>
+    <? }?>
+</ul>
+
+</body>
+</html>
